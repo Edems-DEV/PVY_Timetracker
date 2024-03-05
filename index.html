@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    -->
+    <title>TimeTracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<form id="currentForm" class="row">
+    <input type="text" id="currentText" placeholder="zadejte text...">
+    <select name="currentProject" id="currentProject">
+        <!--JS will load-->
+    </select>
+    <div>
+        <span id="clockH">00</span>:<span id="clockM">00</span>:<span id="clockS">00</span>
+        <button id="btnStartStop" class="circle">></button>
+    </div>
+</form>
+
+<!-- PAGE: Přehled-->
+<div id="pageOverview" class="page">
+    <div class="row" style="width: 100%">
+        <div class="heading">Dnes odpracováno: <span id="clockH2">00</span>:<span id="clockM2">00</span>:<span id="clockS2">00</span></div>
+        <button id="btnTask" class="end">+ Nový záznam</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ukol</th>
+                <th>Projekt</th>
+                <th>Začátek</th>
+                <th>Konec</th>
+                <th>Celkem</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody id="taskTable">
+            <tr>
+                <th>Navrch šablony</th>
+                <th>Projekt 1</th>
+                <th>
+                    <span>13.12.2018</span><br>
+                    <span>08:12</span>
+                </th>
+                <th>
+                    <span>13.12.2018</span><br>
+                    <span>08:12</span>
+                </th>
+                <th>00:33:12</th>
+                <th><a>smazat</a></th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<dialog id="dialogNewTask">
+<div>
+    <div class="dialog-header">
+        <div>Nový záznam</div>
+        <div>x</div>
+    </div>
+    <div>
+        <div class="row">
+            <span>Projekt</span>
+            <select>
+                <option value="Projekt 1">Projekt 1</option>
+            </select>
+        </div>
+        <div class="row">
+            <span>Činnost</span>
+            <input type="text" placeholder="zadejte co děláte">
+        </div>
+        <div class="row">
+            <span>Den</span>
+            <input type="date">
+        </div>
+        <div>
+            <div class="left">
+                <div class="row">
+                    <span>Začátek</span>
+                </div>
+                <div class="row">
+                    <span>Konec</span>
+                </div>
+            </div>
+            <div class="right">
+                <div>00:00:00</div>
+            </div>
+        </div>
+        <button><i><3</i> Přidat</button>
+    </div>
+</div>
+</dialog>
+
+
+
+<!-- PAGE: Projekty-->
+<div id="pageProjekt" class="page">
+    <div class="row" style="width: 100%">
+        <div class="heading">Projekty</div>
+        <button id="btnProject" class="end">+ Nový projekt</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Název projektu</th>
+            <th>Celkový čas</th>
+            <th>Akce</th>
+        </tr>
+        </thead>
+        <tbody id="projectTable">
+        <tr>
+            <th>Projekt 1</th>
+            <th>03:12:12</th>
+            <th>
+                <a>upravit</a>
+                <a>smazat</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<dialog id="dialogNewTaskProject">
+    <div>
+        <div class="dialog-header">
+            <div>Nový projekt</div>
+            <div>x</div>
+        </div>
+        <div>
+            <div class="row">
+                <input type="text" placeholder="Zadejte název projektu">
+            </div>
+            <button><i><3</i> Přidat</button>
+        </div>
+    </div>
+</dialog>
+<dialog id="dialogEditTaskProject">
+    <form>
+        <div class="dialog-header">
+            <div>Nový projekt</div>
+            <div>x</div>
+        </div>
+        <div>
+            <div class="row">
+                <input type="text" placeholder="Zadejte název projektu">
+            </div>
+            <button><i><3</i> Přidat</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

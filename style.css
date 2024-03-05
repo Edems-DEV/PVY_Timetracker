@@ -1,0 +1,37 @@
+.circle{
+    border-radius: 100%;
+}
+.row{
+    display: flex;
+}
+.end{
+    justify-content: flex-end;
+    align-self: end;
+}
+/* TABLE */
+table{
+    border-collapse: collapse;
+    border: solid 1px black;
+}
+td, th{
+    padding: 4px 8px;
+    border: solid 1px black;
+}
+thead *{
+    background: slategray;
+}
+tr{
+    background-color: lightgray;
+}
+tr:nth-child(even){
+    background-color: gray;
+}
+
+/* MY */
+.page{
+    padding: 5px;
+    border: solid 1px black;
+}
+.heading{
+    font-size: 1.8em;
+}
