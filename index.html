@@ -17,8 +17,8 @@
         <!--JS will load-->
     </select>
     <div>
-        <span id="clockH">00</span>:<span id="clockM">00</span>:<span id="clockS">00</span>
-        <button id="btnStartStop" class="circle">></button>
+        <span id="clockH">00:00:00</span>
+        <button type="submit" id="btnStartStop" class="circle">></button>
     </div>
 </form>
 
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
             <span>Činnost</span>
-            <input type="text" placeholder="zadejte co děláte">
+            <input autofocus type="text" placeholder="zadejte co děláte">
         </div>
         <div class="row">
             <span>Den</span>
@@ -126,18 +126,18 @@
     </table>
 </div>
 <dialog id="dialogNewTaskProject">
-    <div>
+    <form>
         <div class="dialog-header">
             <div>Nový projekt</div>
             <div>x</div>
         </div>
         <div>
             <div class="row">
-                <input type="text" placeholder="Zadejte název projektu">
+                <input autofocus type="text" placeholder="Zadejte název projektu">
             </div>
-            <button><i><3</i> Přidat</button>
+            <button type="submit"><i><3</i> Přidat</button>
         </div>
-    </div>
+    </form>
 </dialog>
 <dialog id="dialogEditTaskProject">
     <form>
@@ -147,9 +147,9 @@
         </div>
         <div>
             <div class="row">
-                <input type="text" placeholder="Zadejte název projektu">
+                <input autofocus type="text" placeholder="Zadejte název projektu">
             </div>
-            <button><i><3</i> Přidat</button>
+            <button type="submit"><i><3</i> Přidat</button>
         </div>
     </form>
 </dialog>
