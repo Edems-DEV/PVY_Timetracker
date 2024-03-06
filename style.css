@@ -35,3 +35,9 @@ tr:nth-child(even){
 .heading{
     font-size: 1.8em;
 }
+.mini{
+    width: 40px;
+}
+.center{
+    justify-content: center;
+}

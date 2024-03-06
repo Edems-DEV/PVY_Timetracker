@@ -59,7 +59,7 @@
 </div>
 
 <dialog id="dialogNewTask">
-<div>
+<form>
     <div class="dialog-header">
         <div>Nový záznam</div>
         <div>x</div>
@@ -67,34 +67,40 @@
     <div>
         <div class="row">
             <span>Projekt</span>
-            <select>
-                <option value="Projekt 1">Projekt 1</option>
+            <select class="project" id="newTask_Projects">
+                <!-- JS LOADS-->
             </select>
         </div>
         <div class="row">
             <span>Činnost</span>
-            <input autofocus type="text" placeholder="zadejte co děláte">
+            <input autofocus type="text" placeholder="zadejte co děláte" class="task">
         </div>
         <div class="row">
             <span>Den</span>
-            <input type="date">
+            <input type="date" class="day">
         </div>
-        <div>
+        <div class="row">
             <div class="left">
                 <div class="row">
                     <span>Začátek</span>
+                    <input type="number" class="hStart mini" min="0" max="23">
+                    <span>:</span>
+                    <input type="number" class="mStart mini" min="0" max="59">
                 </div>
                 <div class="row">
                     <span>Konec</span>
+                    <input type="number" class="hEnd mini" min="0" max="23">
+                    <span>:</span>
+                    <input type="number" class="mEnd mini" min="0" max="59">
                 </div>
             </div>
             <div class="right">
-                <div>00:00:00</div>
+                <div class="center">00:00:00</div>
             </div>
         </div>
         <button><i><3</i> Přidat</button>
     </div>
-</div>
+</form>
 </dialog>
 
 

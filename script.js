@@ -2,6 +2,22 @@ let projects = []
 let tasks = []
 LoadData()
 // ---SETUP---
+
+function UpdateProjectDropdowns(){
+    const ccProject = document.querySelector('#currentProject')
+    const newTaskProjects = document.querySelector('#newTask_Projects')
+    projects.forEach(p => {
+        const x = document.createElement('option')
+        x.setAttribute('value', p.id)
+        x.innerText = p.name
+        ccProject.appendChild(x)
+
+        const y = document.createElement('option')
+        y.setAttribute('value', p.id)
+        y.innerText = p.name
+        newTaskProjects.appendChild(y)
+    })
+}
 function LoadData(){
     //loadTasks()
     loadProjects()
@@ -23,17 +39,12 @@ function LoadData(){
     projects.push(project2)
     tasks.push(task)
 
-    const cProject = document.querySelector('#currentProject')
-    projects.forEach(p => {
-        const x = document.createElement('option')
-        x.setAttribute('value', p.id)
-        x.innerText = p.name
-        cProject.appendChild(x)
-    })
+    UpdateProjectDropdowns()
 
     renderProjects()
     renderTasks()
 }
+
 //-----------------------HEADER--------------------------------------
 const cForm = document.querySelector('#currentForm')
 const cBtn = document.querySelector('#btnStartStop')
@@ -101,9 +112,6 @@ function renderTasks() {
             sp3.innerText = c.end.toLocaleDateString()
             sp4.innerText = c.end.getHours().toString().padStart(2, '0')+':'+c.end.getMinutes().toString().padStart(2, '0')
             const diff = new Date(c.end - c.start)
-            console.log(c.start)
-            console.log(c.end)
-            console.log(diff)
             th5.innerText = diff.getUTCHours().toString().padStart(2, '0')+':'+diff.getUTCMinutes().toString().padStart(2, '0')+':'+diff.getUTCSeconds().toString().padStart(2, '0')
         }
         btnDel.innerText = "smazat"
@@ -141,6 +149,43 @@ function loadTasks() {
     renderTasks();
 }
 
+
+const dialogTaskCreate = document.querySelector('#dialogNewTask');
+const formTaskCreate = dialogTaskCreate.querySelector('form')
+const projectTaskCreate = dialogTaskCreate.querySelector('.project')
+const taskTaskCreate = dialogTaskCreate.querySelector('.task')
+const dayTaskCreate = dialogTaskCreate.querySelector('.day')
+const hStartTaskCreate = dialogTaskCreate.querySelector('.hStart')
+const mStartTaskCreate = dialogTaskCreate.querySelector('.mStart')
+const hEndTaskCreate = dialogTaskCreate.querySelector('.hEnd')
+const mEndTaskCreate = dialogTaskCreate.querySelector('.mEnd')
+function buildDate(dateI, h, n) {
+    let dateInput = dateI.value;
+    let hoursInput = parseInt(h.value);
+    let minutesInput = parseInt(n.value);
+
+    let date = new Date(dateInput);
+    date.setHours(hoursInput);
+    date.setMinutes(minutesInput);
+
+    return date
+}
+formTaskCreate.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const task = {
+        name: taskTaskCreate.value,
+        projectId: projectTaskCreate.value,
+        start: buildDate(dayTaskCreate, hStartTaskCreate, mStartTaskCreate),
+        end: buildDate(dayTaskCreate, hEndTaskCreate, mEndTaskCreate)
+    };
+    console.log(task)
+    console.log(projectTaskCreate.value)
+    tasks.push(task)
+    renderTasks()
+    saveTasks()
+    //dialogTaskCreate.Close()
+})
 //--------------PROJECTS-------------------------------------
 
 const dialogProjectEdit = document.querySelector('#dialogEditTaskProject');
