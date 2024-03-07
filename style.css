@@ -56,3 +56,8 @@ main { grid-area: main }
 .hide{
     display: none;
 }
+.myCenter{
+    display: flex;
+    justify-content: center; /*->x*/
+    align-items: center;     /*|y*/
+}

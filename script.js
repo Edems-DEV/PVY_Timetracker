@@ -186,8 +186,6 @@ function buildDate(dateI, h, n) {
     return date
 }
 formTaskCreate.addEventListener('submit', (e) => {
-    e.preventDefault()
-
     const task = {
         name: taskTaskCreate.value,
         projectId: projectTaskCreate.value,
@@ -208,7 +206,6 @@ const formProjectEdit = dialogProjectEdit.querySelector('form')
 const inputProjectEdit = dialogProjectEdit.querySelector('input')
 let editSender = null; //change
 formProjectEdit.addEventListener('submit', (e) => {
-    e.preventDefault()
     projects[editSender].name = inputProjectEdit.value
     //renderProjects() //JS => není třeba refresh
 })
@@ -218,7 +215,6 @@ const dialogProjectCreate = document.querySelector('#dialogNewTaskProject');
 const formProjectCreate = dialogProjectCreate.querySelector('form')
 const inputProjectCreate = dialogProjectCreate.querySelector('input')
 formProjectCreate.addEventListener('submit', (e) => {
-    e.preventDefault()
     let id = 1
     if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}
     const project = {
