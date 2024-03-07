@@ -137,7 +137,13 @@ function renderTasks() {
     });
 }
 function saveTasks() {
-    const Json = JSON.stringify(tasks);
+    const tasksToSave = tasks.map(task => ({
+        ...task,
+        start: task.start.getTime(), // Convert to timestamp
+        end: task.end.getTime() // Convert to timestamp
+    }));
+
+    const Json = JSON.stringify(tasksToSave);
     localStorage.setItem('tasks', Json);
 }
 function loadTasks() {
@@ -146,7 +152,12 @@ function loadTasks() {
         tasks = [];
         return;
     }
-    tasks = JSON.parse(Json);
+    const tasksFromStorage = JSON.parse(Json);
+    tasks = tasksFromStorage.map(task => ({
+        ...task,
+        start: new Date(task.start), // Convert timestamp to Date object
+        end: new Date(task.end) // Convert timestamp to Date object
+    }));
     renderTasks();
 }
 
@@ -201,7 +212,7 @@ const formProjectCreate = dialogProjectCreate.querySelector('form')
 const inputProjectCreate = dialogProjectCreate.querySelector('input')
 formProjectCreate.addEventListener('submit', (e) => {
     let id = 1
-    if(projects.length != 0) {if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}}
+    if(projects.length !== 0) {if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}}
     const project = {
         id: id,
         name: inputProjectCreate.value
