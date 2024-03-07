@@ -26,6 +26,7 @@ function LoadData(){
     UpdateProjectDropdowns()
     renderProjects()
     renderTasks()
+    renderTodayTime()
 }
 
 //-----------------------HEADER--------------------------------------
@@ -82,6 +83,19 @@ cForm.addEventListener('submit', (e) => {
 })
 
 //-----------------------------TASK--------------------------------------
+function  renderTodayTime(){
+    const todayClock = document.querySelector('#clockToday');
+
+    let totalTime = 0;
+    const today = new Date();
+    const todayString = today.toISOString().slice(0, 10);
+    tasks.filter(t => {
+        const dateString = t.start.toISOString().slice(0, 10);
+        return dateString === todayString;
+    }).forEach(t => totalTime += t.end.getTime() - t.start.getTime())
+    let total = new Date(totalTime);
+    todayClock.innerHTML = total.getUTCHours().toString().padStart(2, '0')+':'+total.getUTCMinutes().toString().padStart(2, '0')+':'+total.getUTCSeconds().toString().padStart(2, '0')
+}
 function renderTasks() {
     document.querySelectorAll('#taskTable *').forEach(e => e.remove());
 
