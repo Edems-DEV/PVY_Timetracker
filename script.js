@@ -3,20 +3,20 @@ let tasks = []
 LoadData()
 // ---SETUP---
 
-function UpdateProjectDropdowns(){
-    const ccProject = document.querySelector('#currentProject')
-    const newTaskProjects = document.querySelector('#newTask_Projects')
-    projects.forEach(p => {
+function UpdateDropDown(e, list){
+    list.forEach(p => {
         const x = document.createElement('option')
         x.setAttribute('value', p.id)
         x.innerText = p.name
-        ccProject.appendChild(x)
-
-        const y = document.createElement('option')
-        y.setAttribute('value', p.id)
-        y.innerText = p.name
-        newTaskProjects.appendChild(y)
+        e.appendChild(x)
     })
+}
+
+function UpdateProjectDropdowns(){
+    const ccProject = document.querySelector('#currentProject')
+    const newTaskProjects = document.querySelector('#newTask_Projects')
+    UpdateDropDown(ccProject, projects);
+    UpdateDropDown(newTaskProjects, projects);
 }
 function LoadData(){
     //loadTasks()
@@ -209,9 +209,10 @@ formProjectCreate.addEventListener('submit', (e) => {
         name: inputProjectCreate.value
     }
     projects.push(project)
+    UpdateProjectDropdowns()
     renderProjects()
     saveProjects()
-    dialogProjectCreate.Close()
+    //dialogProjectCreate.Close()
     console.log(project)
 })
 function renderProjects() {
