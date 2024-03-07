@@ -1,56 +1,58 @@
-.circle{
-    border-radius: 100%;
-}
-.row{
-    display: flex;
-}
-.end{
-    justify-content: flex-end;
-    align-self: end;
-}
-/* TABLE */
-table{
-    border-collapse: collapse;
-    border: solid 1px black;
-}
-td, th{
-    padding: 4px 8px;
-    border: solid 1px black;
-}
-thead *{
-    background: slategray;
-}
-tr{
-    background-color: lightgray;
-}
-tr:nth-child(even){
-    background-color: gray;
-}
-
+/* Why i started using boostrap? ugly both code & page itself */
 /* MY */
-.page{
-    padding: 5px;
-    border: solid 1px black;
+body{
+    background: hsl(210, 10%, 7%);
 }
 .heading{
     font-size: 1.8em;
 }
-.mini{
-    width: 40px;
+.page{
+    padding: 30px 20px;
+    border-radius: 5px;
+    border: solid 2px #4d5154
 }
-.center{
-    justify-content: center;
+dialog{
+    border: none;
+    padding: 1em 2em;
+    border-radius: 5px;
 }
-
 ::backdrop{
     background: black;
     opacity: 0.75;
 }
-body,
-button {
-    font-family: Arial;
+
+/* HIDE numbers*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    -moz-appearance: textfield;
+}
+#clockH{
+    font-size: 3em;
+}
+.running{
+    background: #dc3545;
+}
+button{
+    border: none;
+    border-radius: 5px;
 }
 
-.myCard{
-    background: #212529;
+#grid {
+    padding: 10px 20px;
+    display: grid;
+    grid-template-areas:
+            "aaa head head"
+            "side main main";
+    grid-template-columns: auto 1fr 1fr;
+}
+header { grid-area: head }
+aside { grid-area: side }
+main { grid-area: main }
+
+.hide{
+    display: none;
 }

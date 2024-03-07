@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,25 +10,45 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<form id="currentForm" class="row">
-    <input class="form-control" type="text" id="currentText" placeholder="zadejte text...">
-    <select class="form-select" name="currentProject" id="currentProject">
-        <!--JS will load-->
-    </select>
-    <div>
+<div id="grid">
+<!-- TABS-->
+<aside class="nav flex-column me-2">
+    <button class="btn btn-outline-primary mb-2 myNavElement active" id="btnPageOverview">Přehled</button>
+    <button class="btn btn-outline-primary myNavElement" id="btnPageProject">Projekty</button>
+</aside>
+<!-- HEADER-->
+<header>
+<form id="currentForm" class="row g-3 align-items-center">
+    <div class="col-6">
+        <input class="form-control" type="text" id="currentText" placeholder="zadejte text...">
+    </div>
+    <div class="col-auto">
+        <select class="form-select" name="currentProject" id="currentProject">
+            <!--JS will load-->
+        </select>
+    </div>
+    <div class="col-auto">
         <span id="clockH">00:00:00</span>
-        <button type="submit" id="btnStartStop" class="circle">></button>
+        <button class="rounded-circle" type="submit" id="btnStartStop" style="width: 50px; height: 50px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+            </svg>
+        </button>
     </div>
 </form>
-
+</header>
+<main>
 <!-- PAGE: Přehled-->
 <div id="pageOverview" class="page">
-    <div class="row" style="width: 100%">
-        <div class="heading">Dnes odpracováno: <span id="clockToday">00:00:00</span></div>
-        <button class="btn btn-primary end" id="btnTask">+ Nový záznam</button>
+    <div class="row">
+        <div class="col">
+            <div class="heading">Dnes odpracováno: <span id="clockToday">00:00:00</span></div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary end" id="btnTask">+ Nový záznam</button>
+        </div>
     </div>
-    <table>
+    <table class="table table-dark table-striped">
         <thead>
             <tr>
                 <th>Ukol</th>
@@ -60,45 +80,53 @@
 
 <dialog id="dialogNewTask">
 <form method="dialog">
-    <div class="dialog-header">
-        <div>Nový záznam</div>
-        <div>x</div>
+    <div class="dialog-header row">
+        <div class="col">
+            <h4>Nový záznam</h4>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
     </div>
+    <hr/>
     <div>
-        <div class="row">
-            <span>Projekt</span>
-            <select class="project" id="newTask_Projects">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Projekt</span>
+            <select class="form-select project" id="newTask_Projects">
                 <!-- JS LOADS-->
             </select>
         </div>
-        <div class="row">
-            <span>Činnost</span>
-            <input class="form-control" autofocus type="text" placeholder="zadejte co děláte" class="task">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Činost</span>
+            <input class="form-control task" autofocus type="text" placeholder="zadejte co děláte">
         </div>
-        <div class="row">
-            <span>Den</span>
-            <input class="form-control" type="date" class="day">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Den</span>
+            <input class="form-control day" type="date">
         </div>
         <div class="row">
             <div class="left">
-                <div class="row">
-                    <span>Začátek</span>
-                    <input class="form-control" type="number" class="hStart mini" min="0" max="23">
-                    <span>:</span>
-                    <input class="form-control" type="number" class="mStart mini" min="0" max="59">
+                <div class="input-group mb-1" style="max-width: 200px">
+                    <span class="input-group-text" style="width: 80px">Začátek</span>
+                    <input class="form-control hStart mini" type="number" min="0" max="23" aria-label="00" placeholder="hh">
+                    <span class="input-group-text">:</span>
+                    <input class="form-control mStart mini" type="number" min="0" max="59" aria-label="00" placeholder="mm">
                 </div>
-                <div class="row">
-                    <span>Konec</span>
-                    <input class="form-control" type="number" class="hEnd mini" min="0" max="23">
-                    <span>:</span>
-                    <input class="form-control" type="number" class="mEnd mini" min="0" max="59">
+                <div class="input-group" style="max-width: 200px">
+                    <span class="input-group-text" style="width: 80px">Konec</span>
+                    <input class="form-control hEnd mini" type="number" min="0" max="23" aria-label="00" placeholder="hh">
+                    <span class="input-group-text">:</span>
+                    <input class="form-control mEnd mini" type="number" min="0" max="59" aria-label="00" placeholder="mm">
                 </div>
             </div>
             <div class="right">
                 <div class="center">00:00:00</div>
             </div>
         </div>
-        <button class="btn btn-primary"><i><3</i> Přidat</button>
+        <hr/>
+        <div class="row">
+            <button class="btn btn-primary">Přidat</button>
+        </div>
     </div>
 </form>
 </dialog>
@@ -107,11 +135,15 @@
 
 <!-- PAGE: Projekty-->
 <div id="pageProjekt" class="page">
-    <div class="row" style="width: 100%">
-        <div class="heading">Projekty</div>
-        <button class="btn btn-primary end" id="btnProject">+ Nový projekt</button>
+    <div class="row">
+        <div class="col">
+            <div class="heading">Projekty</div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary end" id="btnProject">+ Nový projekt</button>
+        </div>
     </div>
-    <table>
+    <table class="table table-dark table-striped">
         <thead>
         <tr>
             <th>Název projektu</th>
@@ -131,35 +163,49 @@
         </tbody>
     </table>
 </div>
+</main>
 <dialog id="dialogNewTaskProject">
     <form method="dialog">
-        <div class="dialog-header">
-            <div>Nový projekt</div>
-            <div>x</div>
-        </div>
-        <div>
-            <div class="row">
-                <input class="form-control" autofocus type="text" placeholder="Zadejte název projektu">
+        <div class="dialog-header row">
+            <div class="col">
+                <h4>Nový projekt</h4>
             </div>
-            <button class="btn btn-primary" type="submit"><i><3</i> Přidat</button>
+            <div class="col-auto">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-auto">
+                <input autofocus class="form-control" type="text" placeholder="Zadejte název projektu">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">Přidat</button>
+            </div>
         </div>
     </form>
 </dialog>
 <dialog id="dialogEditTaskProject">
     <form method="dialog">
-        <div class="dialog-header">
-            <div>Nový projekt</div>
-            <div>x</div>
-        </div>
-        <div>
-            <div class="row">
-                <input autofocus type="text" placeholder="Zadejte název projektu">
+        <div class="dialog-header row">
+            <div class="col">
+                <h4>Úprava projektu</h4>
             </div>
-            <button type="submit"><i><3</i> Přidat</button>
+            <div class="col-auto">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-auto">
+                <input autofocus class="form-control" type="text" placeholder="Zadejte název projektu">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">Uložit</button>
+            </div>
         </div>
     </form>
 </dialog>
-
 <script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

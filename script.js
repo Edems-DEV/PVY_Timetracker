@@ -66,6 +66,14 @@ cForm.addEventListener('submit', (e) => {
             end: null
         };
 
+        cBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" fill="currentColor" class="bi bi-stop" viewBox="0 0 16 16">
+          <path d="M3.5 5A1.5 1.5 0 0 1 5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11zM5 4.5a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5z"/>
+        </svg>
+        `
+        cBtn.classList.add('running')
+        cBtn.classList.remove('rounded-circle')
+
         cInterval = setInterval(() => {
             currentTask.end =  new Date(new Date - currentTask.start)
             cHead.innerText = currentTask.end.getUTCHours().toString().padStart(2, '0')+':'+currentTask.end.getMinutes().toString().padStart(2, '0')+':'+currentTask.end.getSeconds().toString().padStart(2, '0')
@@ -76,12 +84,17 @@ cForm.addEventListener('submit', (e) => {
         cHead.innerText = "00:00:00"
         currentTask.end = new Date()
 
-        cBtn.classList.add('circle')
         tasks.push(currentTask)
         renderTasks();
         saveTasks();
 
-
+        cBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+        </svg>
+        `
+        cBtn.classList.remove("running")
+        cBtn.classList.add('rounded-circle')
     }
 })
 
@@ -103,6 +116,8 @@ function renderTasks() {
         const th5 = document.createElement('th');
         const th6 = document.createElement('th');
         const btnDel = document.createElement('button');
+        btnDel.classList.add("btn")
+        btnDel.classList.add("btn-danger")
 
         th1.innerText = c.name
         th2.innerText = projects.find(p => p.id === c.projectId).name
@@ -197,6 +212,8 @@ formProjectEdit.addEventListener('submit', (e) => {
     projects[editSender].name = inputProjectEdit.value
     //renderProjects() //JS => není třeba refresh
 })
+const btcCloseProjectEdit = document.querySelector('#dialogEditTaskProject .btn-close');
+btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
 const dialogProjectCreate = document.querySelector('#dialogNewTaskProject');
 const formProjectCreate = dialogProjectCreate.querySelector('form')
 const inputProjectCreate = dialogProjectCreate.querySelector('input')
@@ -226,6 +243,11 @@ function renderProjects() {
         const th3 = document.createElement('th');
         const btnDel = document.createElement('button');
         const btnEdit = document.createElement('button');
+        btnDel.classList.add("btn")
+        btnDel.classList.add("btn-danger")
+        btnDel.classList.add("ms-3")
+        btnEdit.classList.add("btn")
+        btnEdit.classList.add("btn-success")
 
         let total = 0
         const p = tasks.filter(t => t.projectId === c.id)
@@ -274,15 +296,36 @@ function loadProjects() {
 // --- OPEN DIALOG ---
 const btnTask = document.querySelector('#btnTask');
 const dialogTask = document.querySelector('#dialogNewTask');
-btnTask.addEventListener('click', (e) => {
-    dialogTask.showModal()
-})
+const btnCloseTask = document.querySelector('#dialogNewTask .btn-close');
+btnTask.addEventListener('click', (e) => dialogTask.showModal() )
+btnCloseTask.addEventListener('click', (e) => dialogTask.close())
 const btnProject = document.querySelector('#btnProject');
 const dialogProject = document.querySelector('#dialogNewTaskProject');
-btnProject.addEventListener('click', (e) => {
-    dialogProject.showModal()
-})
+const btnCloseProject = document.querySelector('#dialogNewTaskProject .btn-close');
+btnProject.addEventListener('click', (e) => dialogProject.showModal())
+btnCloseProject.addEventListener('click', (e) => dialogProject.close())
+
+
 // dialogProject.addEventListener('submit', (e) => {
 //     e.preventDefault()
 //     projects[editSender].name = inputProjectEdit.value
 // })
+
+const PageProject = document.querySelector('#pageProjekt');
+const pageOverview = document.querySelector('#pageOverview');
+const btnPageOverview = document.querySelector('#btnPageOverview');
+const btnPageProject = document.querySelector('#btnPageProject');
+btnPageOverview.addEventListener('click', (e) => {
+    pageOverview.classList.remove("hide")
+    btnPageOverview.classList.add("active")
+
+    PageProject.classList.add("hide")
+    btnPageProject.classList.remove("active")
+})
+btnPageProject.addEventListener('click', (e) => {
+    PageProject.classList.remove("hide")
+    btnPageProject.classList.add("active")
+
+    pageOverview.classList.add("hide")
+    btnPageOverview.classList.remove("active")
+})
