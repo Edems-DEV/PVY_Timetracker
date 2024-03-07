@@ -1,5 +1,6 @@
 let projects = []
 let tasks = []
+let editSender = null; //change
 LoadData()
 // ---SETUP---
 
@@ -19,28 +20,10 @@ function UpdateProjectDropdowns(){
     UpdateDropDown(newTaskProjects, projects);
 }
 function LoadData(){
-    //loadTasks()
+    loadTasks()
     loadProjects()
 
-    const task = {
-        name: "Návrch šablony",
-        projectId: "1",
-        start: new Date(new Date - 100000),
-        end: new Date()
-    };
-
-    const project = {
-        id: "1",
-        name: "Projekt 1"
-    }
-    const project2 = { id: "2", name: "Projekt 2"}
-
-    projects.push(project)
-    projects.push(project2)
-    tasks.push(task)
-
     UpdateProjectDropdowns()
-
     renderProjects()
     renderTasks()
 }
@@ -120,9 +103,12 @@ function renderTasks() {
         btnDel.classList.add("btn-danger")
 
         th1.innerText = c.name
-        th2.innerText = projects.find(p => p.id === c.projectId).name
-        sp1.innerText = c.start.toLocaleDateString()
-        sp2.innerText = c.start.getHours().toString().padStart(2, '0')+':'+c.start.getMinutes().toString().padStart(2, '0')
+        if (c.id != null)
+            th2.innerText = projects.find(p => p.id === c.projectId).name
+        if (c.start != null){
+            sp1.innerText = c.start.toLocaleDateString()
+            sp2.innerText = c.start.getHours().toString().padStart(2, '0')+':'+c.start.getMinutes().toString().padStart(2, '0')
+        }
         if (c.end != null){
             sp3.innerText = c.end.toLocaleDateString()
             sp4.innerText = c.end.getHours().toString().padStart(2, '0')+':'+c.end.getMinutes().toString().padStart(2, '0')
@@ -192,8 +178,6 @@ formTaskCreate.addEventListener('submit', (e) => {
         start: buildDate(dayTaskCreate, hStartTaskCreate, mStartTaskCreate),
         end: buildDate(dayTaskCreate, hEndTaskCreate, mEndTaskCreate)
     };
-    console.log(task)
-    console.log(projectTaskCreate.value)
     tasks.push(task)
     renderTasks()
     saveTasks()
@@ -204,10 +188,11 @@ formTaskCreate.addEventListener('submit', (e) => {
 const dialogProjectEdit = document.querySelector('#dialogEditTaskProject');
 const formProjectEdit = dialogProjectEdit.querySelector('form')
 const inputProjectEdit = dialogProjectEdit.querySelector('input')
-let editSender = null; //change
+
 formProjectEdit.addEventListener('submit', (e) => {
     projects[editSender].name = inputProjectEdit.value
-    //renderProjects() //JS => není třeba refresh
+    renderProjects()
+    saveProjects()
 })
 const btcCloseProjectEdit = document.querySelector('#dialogEditTaskProject .btn-close');
 btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
@@ -216,7 +201,7 @@ const formProjectCreate = dialogProjectCreate.querySelector('form')
 const inputProjectCreate = dialogProjectCreate.querySelector('input')
 formProjectCreate.addEventListener('submit', (e) => {
     let id = 1
-    if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}
+    if(projects.length != 0) {if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}}
     const project = {
         id: id,
         name: inputProjectCreate.value
@@ -263,7 +248,7 @@ function renderProjects() {
             saveProjects()
         })
         btnEdit.addEventListener('click', (e) => {
-            editSender = c.id;
+            editSender = index;
             dialogProjectEdit.showModal()
         })
 
