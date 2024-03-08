@@ -82,6 +82,9 @@ cForm.addEventListener('submit', (e) => {
         `
         cBtn.classList.remove("running")
         cBtn.classList.add('rounded-circle')
+
+        localStorage.removeItem('running')
+        currentTask = null;
     }
 })
 function saveActiveTask() {
