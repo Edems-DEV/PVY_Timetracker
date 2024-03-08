@@ -70,6 +70,8 @@ cForm.addEventListener('submit', (e) => {
         clearInterval(cInterval)
         cHead.innerText = "00:00:00"
         currentTask.end = new Date()
+        currentTask.name = cInput.value
+        currentTask.projectId = cProject.value
 
         tasks.push(currentTask)
         renderTasks();
