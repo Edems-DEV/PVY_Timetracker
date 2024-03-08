@@ -9,7 +9,8 @@ body{
 .page{
     padding: 30px 20px;
     border-radius: 5px;
-    border: solid 2px #4d5154
+    /*border: solid 2px #4d5154;*/
+    background: hsl(210, 11%, 15%);
 }
 dialog{
     border: none;

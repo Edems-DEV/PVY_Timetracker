@@ -38,30 +38,33 @@ let started = false;
 let currentTask;
 let cInterval;
 const cHead = document.querySelector('#clockH')
+function startTimer(){
+    started = true;
+    cBtn.classList.remove('circle')
+
+    cBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" fill="currentColor" class="bi bi-stop" viewBox="0 0 16 16">
+          <path d="M3.5 5A1.5 1.5 0 0 1 5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11zM5 4.5a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5z"/>
+        </svg>
+        `
+    cBtn.classList.add('running')
+    cBtn.classList.remove('rounded-circle')
+
+    cInterval = setInterval(() => {
+        currentTask.end =  new Date(new Date - currentTask.start)
+        cHead.innerText = currentTask.end.getUTCHours().toString().padStart(2, '0')+':'+currentTask.end.getMinutes().toString().padStart(2, '0')+':'+currentTask.end.getSeconds().toString().padStart(2, '0')
+    }, 100)
+}
 cForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if(!started){
-        started = true;
-        cBtn.classList.remove('circle')
         currentTask = {
             name: cInput.value,
             projectId: cProject.value,
             start: new Date(),
             end: null
         };
-
-        cBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="auto" height="auto" fill="currentColor" class="bi bi-stop" viewBox="0 0 16 16">
-          <path d="M3.5 5A1.5 1.5 0 0 1 5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11zM5 4.5a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5z"/>
-        </svg>
-        `
-        cBtn.classList.add('running')
-        cBtn.classList.remove('rounded-circle')
-
-        cInterval = setInterval(() => {
-            currentTask.end =  new Date(new Date - currentTask.start)
-            cHead.innerText = currentTask.end.getUTCHours().toString().padStart(2, '0')+':'+currentTask.end.getMinutes().toString().padStart(2, '0')+':'+currentTask.end.getSeconds().toString().padStart(2, '0')
-        }, 100)
+        startTimer();
     }else{ //STOP
         started = false;
         clearInterval(cInterval)
@@ -81,6 +84,32 @@ cForm.addEventListener('submit', (e) => {
         cBtn.classList.add('rounded-circle')
     }
 })
+function saveActiveTask() {
+    let taskToSave2 = currentTask;
+    taskToSave2.start = taskToSave2.start.getTime();
+    taskToSave2.end = taskToSave2.end.getTime();
+
+    const Json = JSON.stringify(taskToSave2);
+    localStorage.setItem('running', Json);
+}
+function loadActiveTask() {
+    const Json = localStorage.getItem('running');
+    if (!Json) { return; }
+    let tasksFromStorage = JSON.parse(Json);
+    tasksFromStorage.start = new Date(tasksFromStorage.start)
+    tasksFromStorage.end = new Date(tasksFromStorage.end)
+    currentTask = tasksFromStorage
+    renderTasks();
+}
+window.onload = function() {
+    loadActiveTask();
+    if (currentTask) {
+        startTimer()
+    }
+    window.onbeforeunload = () => {
+        saveActiveTask()
+    };
+};
 
 //-----------------------------TASK--------------------------------------
 function  renderTodayTime(){
