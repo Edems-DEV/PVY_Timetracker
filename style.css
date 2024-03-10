@@ -62,3 +62,9 @@ main { grid-area: main }
     justify-content: center; /*->x*/
     align-items: center;     /*|y*/
 }
+.myContainer{
+    display: flex;
+    justify-content: center; /*->x*/
+    align-items: center;     /*|y*/
+    flex-direction: row;
+}

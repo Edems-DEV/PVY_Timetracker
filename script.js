@@ -122,6 +122,8 @@ window.onload = function() {
         startTimer()
     }
     window.onbeforeunload = () => {
+        if (currentTask == undefined || currentTask === null)
+            return
         saveActiveTask()
     };
 };
@@ -229,12 +231,17 @@ const hStartTaskCreate = dialogTaskCreate.querySelector('.hStart')
 const mStartTaskCreate = dialogTaskCreate.querySelector('.mStart')
 const hEndTaskCreate = dialogTaskCreate.querySelector('.hEnd')
 const mEndTaskCreate = dialogTaskCreate.querySelector('.mEnd')
+const totalTaskCreate = dialogTaskCreate.querySelector('.total')
 function buildDate(dateI, h, n) {
     let dateInput = dateI.value;
+    return buildDate2(dateInput, h,n)
+}
+function buildDate2(timeStemp, h, n) {
+    //let dateInput = dateI.value;
     let hoursInput = parseInt(h.value);
     let minutesInput = parseInt(n.value);
 
-    let date = new Date(dateInput);
+    let date = new Date(timeStemp);
     date.setHours(hoursInput);
     date.setMinutes(minutesInput);
 
@@ -252,6 +259,30 @@ formTaskCreate.addEventListener('submit', (e) => {
     saveTasks()
     //dialogTaskCreate.Close()
 })
+function isValid_TaskCreate(){
+    console.log("validate")
+    if (hStartTaskCreate.value === ""){return false;}
+    else if (mStartTaskCreate.value === ""){return false;}
+    else if (hEndTaskCreate.value   === ""){return false;}
+    else if (mEndTaskCreate.value   === ""){return false;}
+    else {return true}
+}
+function updateTotalDiff(){
+    if (isValid_TaskCreate()){
+        const c = {
+            start: buildDate2('2024-03-12', hStartTaskCreate, mStartTaskCreate),
+            end: buildDate2('2024-03-12', hEndTaskCreate, mEndTaskCreate)
+        };
+
+        const diff = new Date(c.end - c.start)
+        totalTaskCreate.innerText = diff.getUTCHours().toString().padStart(2, '0')+':'+diff.getUTCMinutes().toString().padStart(2, '0')+':'+diff.getUTCSeconds().toString().padStart(2, '0')
+    }
+}
+//listing even when dialog is closed? => ERROR
+hStartTaskCreate.addEventListener('input', updateTotalDiff)
+mStartTaskCreate.addEventListener('input', updateTotalDiff)
+hEndTaskCreate.addEventListener('input', updateTotalDiff)
+mEndTaskCreate.addEventListener('input', updateTotalDiff)
 //--------------PROJECTS-------------------------------------
 
 const dialogProjectEdit = document.querySelector('#dialogEditTaskProject');
@@ -342,7 +373,7 @@ function loadProjects() {
 const btnTask = document.querySelector('#btnTask');
 const dialogTask = document.querySelector('#dialogNewTask');
 const btnCloseTask = document.querySelector('#dialogNewTask .btn-close');
-btnTask.addEventListener('click', (e) => dialogTask.showModal() )
+btnTask.addEventListener('click', (e) => {dialogTask.showModal(); updateTotalDiff()} )
 btnCloseTask.addEventListener('click', (e) => dialogTask.close())
 const btnProject = document.querySelector('#btnProject');
 const dialogProject = document.querySelector('#dialogNewTaskProject');
