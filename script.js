@@ -374,8 +374,12 @@ mEndTaskCreate.addEventListener('input', updateTotalDiff)
 const dialogProjectEdit = document.querySelector('#dialogEditTaskProject');
 const formProjectEdit = dialogProjectEdit.querySelector('form')
 const inputProjectEdit = dialogProjectEdit.querySelector('input')
-
+inputProjectEdit.addEventListener('input', (e) => validate(inputProjectEdit, inputProjectEdit.value !== "", 'Required'))
 formProjectEdit.addEventListener('submit', (e) => {
+    if (!validate(inputProjectEdit, inputProjectEdit.value !== "", 'Required')) {
+        e.preventDefault();
+        return
+    } else{  makeClear(inputProjectEdit) }
     projects[editSender].name = inputProjectEdit.value
     updateSaveProjects()
 })
@@ -384,7 +388,12 @@ btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
 const dialogProjectCreate = document.querySelector('#dialogNewTaskProject');
 const formProjectCreate = dialogProjectCreate.querySelector('form')
 const inputProjectCreate = dialogProjectCreate.querySelector('input')
+inputProjectCreate.addEventListener('input', (e) => validate(inputProjectCreate, inputProjectCreate.value !== "", 'Required'))
 formProjectCreate.addEventListener('submit', (e) => {
+    if (!validate(inputProjectCreate, inputProjectCreate.value !== "", 'Required')) {
+        e.preventDefault();
+        return
+    } else{  makeClear(inputProjectCreate) }
     let id = 1
     if(projects.length !== 0) {if (projects[projects.length - 1].id){ id = parseInt(projects[projects.length - 1].id) + 1}}
     const project = {
