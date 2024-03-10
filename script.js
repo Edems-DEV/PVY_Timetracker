@@ -38,6 +38,38 @@ function updateSaveProjects(){
     saveProjects()
 }
 
+function makeValid(input, div){
+
+    input.classList.remove('is-invalid')
+    input.classList.add('is-valid');
+    if (div !== null){
+        div.classList.replace('text-danger', 'text-success');
+        div.textContent = ""
+    }
+}
+function makeClear(input){
+    input.classList.remove('is-invalid')
+    input.classList.remove('is-valid');
+}
+function makeInValid(input, div, msg = ""){
+    input.classList.remove('is-valid');
+    input.classList.add('is-invalid')
+    if (div !== null){
+        div.classList.replace('text-success', 'text-danger');
+        div.textContent = msg
+    }
+}
+function validate(e, isValid, msg){
+    let x = null //e.nextElementSibling
+    if (isValid){
+        makeValid(e, x)
+        return true
+    }
+    else{
+        makeInValid(e, x, msg)
+        return false
+    }
+}
 
 //-----------------------HEADER--------------------------------------
 const cForm = document.querySelector('#currentForm')
@@ -248,6 +280,16 @@ function buildDate2(timeStemp, h, n) {
     return date
 }
 formTaskCreate.addEventListener('submit', (e) => {
+    console.log(projectTaskCreate.value)
+    if (
+        !validate(taskTaskCreate, true, 'Required') ||
+        !validate(projectTaskCreate, projectTaskCreate.value !== "", 'Required') ||
+        !validate (dayTaskCreate   , dayTaskCreate.value !== "", 'Required') ||
+        !isValid_TaskCreate()
+    ) {
+        e.preventDefault();
+        return
+    } else{ ClearNewTask() }
     const task = {
         name: taskTaskCreate.value,
         projectId: projectTaskCreate.value,
@@ -259,9 +301,53 @@ formTaskCreate.addEventListener('submit', (e) => {
     saveTasks()
     //dialogTaskCreate.Close()
 })
+
+function ClearNewTask(){
+    makeClear(projectTaskCreate);
+    makeClear(dayTaskCreate);
+    makeClear(taskTaskCreate)
+}
+
+//check on submit = if empty: projectTaskCreate, dayTaskCreate
+// taskTaskCreate.addEventListener('input', (e) => {
+//     validate(taskTaskCreate, taskTaskCreate.value !== "", 'Required')
+//     //is possible to make task without name
+// })
+let re = /^\d\d?$/;
+function validateTimeInput(e, start,end){
+    let isValid = false
+    let diff = totalTaskCreate
+    let diffError = diff.nextElementSibling
+    if (hStartTaskCreate.value === '' ||
+        mStartTaskCreate.value === '' ||
+        hEndTaskCreate.value === '' ||
+        mEndTaskCreate.value === '')
+    {makeInValid(diff, diffError, 'Required')}
+    else if (!re.test(e.value))
+        makeInValid(diff, diffError, 'only numbers (2x)')
+    else if (parseInt(start.value) > parseInt(end.value) )
+        makeInValid(diff, diffError, 'Start > End')
+    else{
+        makeValid(diff, diffError)
+        isValid = true;
+    }
+    return isValid;
+}
+hStartTaskCreate.addEventListener('input', (e) => {
+    validateTimeInput(hStartTaskCreate, hStartTaskCreate, hEndTaskCreate)
+})
+mStartTaskCreate.addEventListener('input', (e) => {
+    validateTimeInput(mStartTaskCreate, mStartTaskCreate, mEndTaskCreate)
+})
+hEndTaskCreate.addEventListener('input', (e) => {
+    validateTimeInput(hEndTaskCreate, hStartTaskCreate, hEndTaskCreate)
+})
+mEndTaskCreate.addEventListener('input', (e) => {
+    validateTimeInput(mEndTaskCreate, mStartTaskCreate, mEndTaskCreate)
+})
+
 function isValid_TaskCreate(){
-    console.log("validate")
-    if (hStartTaskCreate.value === ""){return false;}
+    if      (hStartTaskCreate.value === ""){return false;}
     else if (mStartTaskCreate.value === ""){return false;}
     else if (hEndTaskCreate.value   === ""){return false;}
     else if (mEndTaskCreate.value   === ""){return false;}
@@ -278,7 +364,7 @@ function updateTotalDiff(){
         totalTaskCreate.innerText = diff.getUTCHours().toString().padStart(2, '0')+':'+diff.getUTCMinutes().toString().padStart(2, '0')+':'+diff.getUTCSeconds().toString().padStart(2, '0')
     }
 }
-//listing even when dialog is closed? => ERROR
+//listing even when dialog is closed? => ERROR (still even withnout this)
 hStartTaskCreate.addEventListener('input', updateTotalDiff)
 mStartTaskCreate.addEventListener('input', updateTotalDiff)
 hEndTaskCreate.addEventListener('input', updateTotalDiff)
