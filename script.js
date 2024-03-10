@@ -5,6 +5,7 @@ LoadData()
 // ---SETUP---
 
 function UpdateDropDown(e, list){
+    e.querySelectorAll('*').forEach(e => e.remove());
     list.forEach(p => {
         const x = document.createElement('option')
         x.setAttribute('value', p.id)
@@ -23,11 +24,20 @@ function LoadData(){
     loadTasks()
     loadProjects()
 
-    UpdateProjectDropdowns()
-    renderProjects()
+    updateProjects()
     renderTasks()
     renderTodayTime()
 }
+
+function updateProjects(){
+    UpdateProjectDropdowns()
+    renderProjects()
+}
+function updateSaveProjects(){
+    updateProjects()
+    saveProjects()
+}
+
 
 //-----------------------HEADER--------------------------------------
 const cForm = document.querySelector('#currentForm')
@@ -250,8 +260,7 @@ const inputProjectEdit = dialogProjectEdit.querySelector('input')
 
 formProjectEdit.addEventListener('submit', (e) => {
     projects[editSender].name = inputProjectEdit.value
-    renderProjects()
-    saveProjects()
+    updateSaveProjects()
 })
 const btcCloseProjectEdit = document.querySelector('#dialogEditTaskProject .btn-close');
 btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
@@ -266,10 +275,7 @@ formProjectCreate.addEventListener('submit', (e) => {
         name: inputProjectCreate.value
     }
     projects.push(project)
-    UpdateProjectDropdowns()
-    renderProjects()
-    saveProjects()
-    //dialogProjectCreate.Close()
+    updateSaveProjects()
     console.log(project)
 })
 function renderProjects() {
@@ -303,8 +309,7 @@ function renderProjects() {
         btnEdit.innerText = "upravit"
         btnDel.addEventListener('click', (e) => {
             projects.splice(index,1)
-            renderProjects()
-            saveProjects()
+            updateSaveProjects()
         })
         btnEdit.addEventListener('click', (e) => {
             editSender = index;
@@ -330,7 +335,7 @@ function loadProjects() {
         return;
     }
     projects = JSON.parse(Json);
-    renderProjects();
+    updateProjects()
 }
 
 // --- OPEN DIALOG ---
