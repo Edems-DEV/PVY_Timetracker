@@ -68,3 +68,13 @@ main { grid-area: main }
     align-items: center;     /*|y*/
     flex-direction: row;
 }
+.right{
+    position: relative;
+}
+.my-err {
+    position: absolute;
+    bottom: -20px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
