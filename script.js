@@ -195,8 +195,12 @@ function renderTasks() {
         btnDel.classList.add("btn-danger")
 
         th1.innerText = c.name
-        if (c.projectId != null && projects.length !== 0){
-            th2.innerText = projects.find(p => p.id == c.projectId).name;
+        if (c.projectId != null && projects.length > 0 && projects != undefined){
+            let final = ""
+            let x = projects.find(p => p.id == c.projectId);
+            if (x !== undefined) //deleted project
+                final = x.name
+            th2.innerText = final;
         }
         if (c.start != null){
             sp1.innerText = c.start.toLocaleDateString()
@@ -210,6 +214,7 @@ function renderTasks() {
         }
         btnDel.innerText = "smazat"
         btnDel.addEventListener('click', (e) => {
+            //check if have task references (delete all child tasks?)
             tasks.splice(index,1)
             renderTasks()
             saveTasks() //delete in cash
