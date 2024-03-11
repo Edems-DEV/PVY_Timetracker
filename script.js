@@ -195,8 +195,9 @@ function renderTasks() {
         btnDel.classList.add("btn-danger")
 
         th1.innerText = c.name
-        if (c.id != null)
-            th2.innerText = projects.find(p => p.id === c.projectId).name
+        if (c.projectId != null && projects.length !== 0){
+            th2.innerText = projects.find(p => p.id == c.projectId).name;
+        }
         if (c.start != null){
             sp1.innerText = c.start.toLocaleDateString()
             sp2.innerText = c.start.getHours().toString().padStart(2, '0')+':'+c.start.getMinutes().toString().padStart(2, '0')
@@ -325,13 +326,20 @@ function validateTimeInput(e, start,end){
     {makeInValid(diff, diffError, 'Required')}
     else if (!re.test(e.value))
         makeInValid(diff, diffError, 'only numbers (2x)')
-    else if (parseInt(start.value) > parseInt(end.value) )
+    else if (!isDiffValid())
         makeInValid(diff, diffError, 'Start > End')
     else{
         makeValid(diff, diffError)
         isValid = true;
     }
     return isValid;
+}
+function isDiffValid(){
+    const c = {
+        start: buildDate2('2024-03-12', hStartTaskCreate, mStartTaskCreate),
+        end: buildDate2('2024-03-12', hEndTaskCreate, mEndTaskCreate)
+    };
+    return c.end.getTime() >= c.start.getTime();
 }
 hStartTaskCreate.addEventListener('input', (e) => {
     validateTimeInput(hStartTaskCreate, hStartTaskCreate, hEndTaskCreate)
@@ -382,6 +390,7 @@ formProjectEdit.addEventListener('submit', (e) => {
     } else{  makeClear(inputProjectEdit) }
     projects[editSender].name = inputProjectEdit.value
     updateSaveProjects()
+    renderTasks()
 })
 const btcCloseProjectEdit = document.querySelector('#dialogEditTaskProject .btn-close');
 btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
