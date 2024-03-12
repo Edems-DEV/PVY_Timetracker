@@ -25,10 +25,12 @@ function LoadData(){
     loadProjects()
 
     updateProjects()
+    updateTasks()
+}
+function updateTasks(){
     renderTasks()
     renderTodayTime()
 }
-
 function updateProjects(){
     UpdateProjectDropdowns()
     renderProjects()
@@ -116,7 +118,7 @@ cForm.addEventListener('submit', (e) => {
         currentTask.projectId = cProject.value
 
         tasks.push(currentTask)
-        renderTasks();
+        updateTasks();
         saveTasks();
 
         cBtn.innerHTML = `
@@ -146,7 +148,7 @@ function loadActiveTask() {
     tasksFromStorage.start = new Date(tasksFromStorage.start)
     tasksFromStorage.end = new Date(tasksFromStorage.end)
     currentTask = tasksFromStorage
-    renderTasks();
+    updateTasks();
 }
 window.onload = function() {
     loadActiveTask();
@@ -174,6 +176,7 @@ function  renderTodayTime(){
     let total = new Date(totalTime);
     todayClock.innerHTML = total.getUTCHours().toString().padStart(2, '0')+':'+total.getUTCMinutes().toString().padStart(2, '0')+':'+total.getUTCSeconds().toString().padStart(2, '0')
 }
+
 function renderTasks() {
     document.querySelectorAll('#taskTable *').forEach(e => e.remove());
 
@@ -216,7 +219,7 @@ function renderTasks() {
         btnDel.addEventListener('click', (e) => {
             //check if have task references (delete all child tasks?)
             tasks.splice(index,1)
-            renderTasks()
+            updateTasks()
             saveTasks() //delete in cash
         })
 
@@ -256,7 +259,7 @@ function loadTasks() {
         start: new Date(task.start), // Convert timestamp to Date object
         end: new Date(task.end) // Convert timestamp to Date object
     }));
-    renderTasks();
+    updateTasks();
 }
 
 
@@ -303,7 +306,7 @@ formTaskCreate.addEventListener('submit', (e) => {
         end: buildDate(dayTaskCreate, hEndTaskCreate, mEndTaskCreate)
     };
     tasks.push(task)
-    renderTasks()
+    updateTasks()
     saveTasks()
     //dialogTaskCreate.Close()
 })
@@ -395,7 +398,7 @@ formProjectEdit.addEventListener('submit', (e) => {
     } else{  makeClear(inputProjectEdit) }
     projects[editSender].name = inputProjectEdit.value
     updateSaveProjects()
-    renderTasks()
+    updateTasks()
 })
 const btcCloseProjectEdit = document.querySelector('#dialogEditTaskProject .btn-close');
 btcCloseProjectEdit.addEventListener('click', (e) => dialogProjectEdit.close())
