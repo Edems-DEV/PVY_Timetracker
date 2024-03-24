@@ -1,6 +1,6 @@
 ### What is it about?
 
-Simple project in vanilla js to understand why to used statically typed languages.
+Simple project in vanilla js to understand why to use statically typed languages.
 
 ---
 
