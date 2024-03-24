@@ -6,7 +6,7 @@ Simple project in vanilla js to understand why to used statically typed language
 
 ## Showcase
 
-<details> <summary>✔ Modern UI</summary>
+<details open> <summary>✔ Modern UI</summary>
 
 ![wrong](https://imgur.com/fKk7sBm.png)
 ![wrong](https://i.imgur.com/VuEwuL9.png)
