@@ -1,8 +1,10 @@
-### What is it about?
+## What is it about?
 
 Simple project in vanilla js to understand why to use statically typed languages.
 
----
+## Setup
+- Powershell: `iwr -useb https://raw.githubusercontent.com/Edems-DEV/PVY_Timetracker/main/setup.ps1 | iex`
+- _( or dowload this repo and open `index.html` )_
 
 ## Showcase
 
